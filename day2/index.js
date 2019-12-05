@@ -30,7 +30,7 @@ function day2_2(testInput, targetValue) {
       day2(input);
       if (input[0] === targetValue) {
         let output = 100 * i + j;
-        console.log(`noun:${i} verb:${j} answer:${output}`);
+        //console.log(`noun:${i} verb:${j} answer:${output}`);
         return output;
       }
     }
