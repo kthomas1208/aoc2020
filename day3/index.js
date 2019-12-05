@@ -8,12 +8,13 @@ function processor(input1, input2) {
   traceWire(wire1, wire1Path);
   traceWire(wire2, wire2Path);
 
-  let intersections = wire1Path.filter(a =>
-    wire2Path.some(b => a.x === b.x && a.y === b.y)
-  );
+  let wire2Set = new Set(wire2Path);
+  let intersections = wire1Path.filter(a => wire2Set.has(a));
+
   let min = Number.MAX_VALUE;
   intersections.forEach(intersection => {
-    min = Math.min(Math.abs(intersection.x) + Math.abs(intersection.y), min);
+    let [x, y] = parsePoint(intersection);
+    min = Math.min(Math.abs(x) + Math.abs(y), min);
   });
 
   return min;
@@ -29,22 +30,22 @@ function traceWire(input, wirePath) {
     if (direction === 'R') {
       for (var i = 0; i < distance; i++) {
         x++;
-        wirePath.push({ x, y });
+        wirePath.push([x, y].toString());
       }
     } else if (direction === 'L') {
       for (var i = 0; i < distance; i++) {
         x--;
-        wirePath.push({ x, y });
+        wirePath.push([x, y].toString());
       }
     } else if (direction === 'U') {
       for (var i = 0; i < distance; i++) {
         y++;
-        wirePath.push({ x, y });
+        wirePath.push([x, y].toString());
       }
     } else if (direction === 'D') {
       for (var i = 0; i < distance; i++) {
         y--;
-        wirePath.push({ x, y });
+        wirePath.push([x, y].toString());
       }
     }
   });
@@ -59,29 +60,34 @@ function processor2(input1, input2) {
 
   traceWire(wire1, wire1Path);
   traceWire(wire2, wire2Path);
+  let wire2Set = new Set(wire2Path);
 
-  let intersections = wire1Path.filter(a =>
-    wire2Path.some(b => a.x === b.x && a.y === b.y)
-  );
+  let intersections = wire1Path.filter(a => wire2Set.has(a));
 
-  const first = intersections[0];
+  const [firstx, firsty] = parsePoint(intersections[0]);
 
   let distance1 = 0;
   let distance2 = 0;
   for (let point of wire1Path) {
+    let [x, y] = parsePoint(point);
     distance1++;
-    if (point.x === first.x && point.y === first.y) {
+    if (x === firstx && y === firsty) {
       break;
     }
   }
   for (let point of wire2Path) {
+    let [x, y] = parsePoint(point);
     distance2++;
-    if (point.x === first.x && point.y === first.y) {
+    if (x === firstx && y === firsty) {
       break;
     }
   }
 
   return distance1 + distance2;
+}
+
+function parsePoint(point) {
+  return point.split(',').map(p => Number(p));
 }
 
 module.exports = { processor, processor2 };
