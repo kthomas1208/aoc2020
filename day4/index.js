@@ -17,7 +17,67 @@ function passwordCracker(input) {
   input = input.split('-');
   const lowerLimit = Number(input[0]);
   const upperLimit = Number(input[1]);
-  return upperLimit;
+  let possiblePasswords = 0;
+
+  for (let i = lowerLimit; i <= upperLimit; i++) {
+    if (isNeverDecreasing(i) && checkAdjacency(i)) possiblePasswords++;
+  }
+  return possiblePasswords;
 }
 
-module.exports = { passwordCracker };
+function isNeverDecreasing(number) {
+  let splitNums = number
+    .toString()
+    .split('')
+    .map(Number);
+  for (let i = 0; i < splitNums.length - 1; i++) {
+    if (splitNums[i] > splitNums[i + 1]) return false;
+  }
+  return true;
+}
+
+function checkAdjacency(number) {
+  let splitNums = number
+    .toString()
+    .split('')
+    .map(Number);
+  for (let i = 0; i < splitNums.length - 1; i++) {
+    if (splitNums[i] === splitNums[i + 1]) return true;
+  }
+  return false;
+}
+
+//112233
+
+// dupes: 2
+// count: 1
+// pass: true
+function checkSingleAdjacency(number) {
+  let splitNums = number
+    .toString()
+    .split('')
+    .map(Number);
+
+  let pass = false;
+  let duplicates = new Set();
+  let count = 0;
+  for (let i = 0; i < splitNums.length; i++) {
+    let current = splitNums[i];
+    if (duplicates.has(current)) {
+      if (count < 2) {
+        count++;
+        pass = true;
+      } else {
+        //pass = ;
+      }
+      false;
+    } else {
+      duplicates.clear();
+      duplicates.add(current);
+      count = 1;
+    }
+  }
+  return pass;
+}
+
+module.exports = { passwordCracker, checkSingleAdjacency };
