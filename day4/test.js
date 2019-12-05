@@ -1,23 +1,31 @@
-const { passwordCracker, checkSingleAdjacency } = require('./index.js');
+const { passwordCracker, checkSingleDuplicate } = require('./index.js');
 
 /** PART 1 --------------------------------------------*/
-// test('should return number of possible passwords', () => {
-//   expect(passwordCracker('125730-579381')).toEqual(2081);
-// });
+test('should return number of possible passwords', () => {
+  expect(passwordCracker('125730-579381', false)).toEqual(2081);
+});
 
 /** PART 2 --------------------------------------------*/
-// test('should return number of possible passwords without repeated adjacency', () => {
-//   expect(passwordCracker('125730-579381')).toEqual(0);
-// });
+test('should return number of possible passwords without repeated duplicates', () => {
+  expect(passwordCracker('125730-579381', true)).toEqual(1411);
+});
 
 test('test adjacency - all doubles', () => {
-  expect(checkSingleAdjacency(112233)).toBeTruthy();
+  expect(checkSingleDuplicate(112233)).toBeTruthy();
 });
 
 test('test adjacency - no doubles', () => {
-  expect(checkSingleAdjacency(123444)).toBeFalsy();
+  expect(checkSingleDuplicate(123444)).toBeFalsy();
+});
+
+test('test adjacency - double in the middle', () => {
+  expect(checkSingleDuplicate(123345)).toBeTruthy();
+});
+
+test('test adjacency - two doubles', () => {
+  expect(checkSingleDuplicate(123344)).toBeTruthy();
 });
 
 test('test adjacency - one double', () => {
-  expect(checkSingleAdjacency(111122)).toBeTruthy();
+  expect(checkSingleDuplicate(111122)).toBeTruthy();
 });
