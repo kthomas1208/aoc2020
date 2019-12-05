@@ -64,26 +64,17 @@ function processor2(input1, input2) {
 
   let intersections = wire1Path.filter(a => wire2Set.has(a));
 
-  const [firstx, firsty] = parsePoint(intersections[0]);
-
   let distance1 = 0;
   let distance2 = 0;
-  for (let point of wire1Path) {
-    let [x, y] = parsePoint(point);
-    distance1++;
-    if (x === firstx && y === firsty) {
-      break;
-    }
-  }
-  for (let point of wire2Path) {
-    let [x, y] = parsePoint(point);
-    distance2++;
-    if (x === firstx && y === firsty) {
-      break;
-    }
-  }
+  let min = Number.MAX_VALUE;
 
-  return distance1 + distance2;
+  intersections.forEach(intersection => {
+    distance1 = wire1Path.indexOf(intersection) + 1;
+    distance2 = wire2Path.indexOf(intersection) + 1;
+    min = Math.min(min, distance1 + distance2);
+  });
+
+  return min;
 }
 
 function parsePoint(point) {
