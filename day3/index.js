@@ -1,6 +1,6 @@
 function processor(input1, input2) {
-  const wire1 = input1.split(",");
-  const wire2 = input2.split(",");
+  const wire1 = input1.split(',');
+  const wire2 = input2.split(',');
 
   let wire1Path = [];
   let wire2Path = [];
@@ -26,22 +26,22 @@ function traceWire(input, wirePath) {
     const direction = path.substring(0, 1);
     let distance = path.substring(1);
 
-    if (direction === "R") {
+    if (direction === 'R') {
       for (var i = 0; i < distance; i++) {
         x++;
         wirePath.push({ x, y });
       }
-    } else if (direction === "L") {
+    } else if (direction === 'L') {
       for (var i = 0; i < distance; i++) {
         x--;
         wirePath.push({ x, y });
       }
-    } else if (direction === "U") {
+    } else if (direction === 'U') {
       for (var i = 0; i < distance; i++) {
         y++;
         wirePath.push({ x, y });
       }
-    } else if (direction === "D") {
+    } else if (direction === 'D') {
       for (var i = 0; i < distance; i++) {
         y--;
         wirePath.push({ x, y });
@@ -51,8 +51,8 @@ function traceWire(input, wirePath) {
 }
 
 function processor2(input1, input2) {
-  const wire1 = input1.split(",");
-  const wire2 = input2.split(",");
+  const wire1 = input1.split(',');
+  const wire2 = input2.split(',');
 
   let wire1Path = [];
   let wire2Path = [];
@@ -64,26 +64,20 @@ function processor2(input1, input2) {
     wire2Path.some(b => a.x === b.x && a.y === b.y)
   );
 
-  console.log(intersections);
-
   const first = intersections[0];
 
   let distance1 = 0;
   let distance2 = 0;
-  for (let point in wire1Path) {
+  for (let point of wire1Path) {
+    distance1++;
     if (point.x === first.x && point.y === first.y) {
-      console.log(distance1);
       break;
-    } else {
-      distance1++;
     }
   }
-  for (let point in wire2Path) {
+  for (let point of wire2Path) {
+    distance2++;
     if (point.x === first.x && point.y === first.y) {
-      console.log(distance2);
       break;
-    } else {
-      distance2++;
     }
   }
 
