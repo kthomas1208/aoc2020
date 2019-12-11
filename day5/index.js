@@ -31,8 +31,8 @@ function day5(instruction) {
       case OpCodes.HALT:
         return;
       default:
-        console.log(`Parameter Mode: ${opcode}`);
-        parameterMode(instruction, cursor);
+        //console.log(`Parameter Mode: ${opcode}`);
+        parameterMode(instruction, cursor, userInput);
         cursor += 4;
         break;
     }
@@ -57,14 +57,15 @@ function multiply(instruction, cursor) {
 }
 
 function input(instruction, cursor, userInput) {
-  instruction[cursor + 1] = userInput;
+  instruction[instruction[cursor + 1]] = userInput;
 }
 
 function output(instruction, cursor) {
-  console.log(`Test Result: ${instruction[cursor + 1]}`);
+  const diagnosticCode = instruction[instruction[cursor + 1]];
+  console.log(`Test Result: ${diagnosticCode}`);
 }
 
-function parameterMode(instruction, cursor) {
+function parameterMode(instruction, cursor, userInput) {
   const in0 = instruction[cursor].toString();
   const opCode = Number(in0.slice(-2));
   const in1Mode = Number(in0.slice(-3, -2));
@@ -82,6 +83,11 @@ function parameterMode(instruction, cursor) {
     instruction[out] = in1 + in2;
   } else if (opCode === OpCodes.MULTIPLY) {
     instruction[out] = in1 * in2;
+  } else if (opCode === OpCodes.OUTPUT) {
+    console.log(`Test Result: ${in1}`);
+    //if(in1 !== 0) return in1;
+  } else if (opCode === OpCodes.INPUT) {
+    input(instruction, cursor, userInput);
   }
 }
 
