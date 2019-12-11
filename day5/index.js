@@ -9,6 +9,7 @@ var OpCodes = {
 function day5(instruction) {
   const userInput = 1;
   let cursor = 0;
+  let diagnosticCode = 0;
   while (cursor < instruction.length) {
     let opcode = instruction[cursor];
     switch (opcode) {
@@ -25,19 +26,20 @@ function day5(instruction) {
         cursor += 2;
         break;
       case OpCodes.OUTPUT:
-        output(instruction, cursor);
+        diagnosticCode = output(instruction, cursor);
+        if (diagnosticCode) return diagnosticCode;
         cursor += 2;
         break;
       case OpCodes.HALT:
         return;
       default:
-        //console.log(`Parameter Mode: ${opcode}`);
-        parameterMode(instruction, cursor, userInput);
+        diagnosticCode = parameterMode(instruction, cursor, userInput);
+        if (diagnosticCode) return diagnosticCode;
         cursor += 4;
         break;
     }
   }
-  return instruction;
+  return diagnosticCode;
 }
 
 function add(instruction, cursor) {
@@ -63,6 +65,7 @@ function input(instruction, cursor, userInput) {
 function output(instruction, cursor) {
   const diagnosticCode = instruction[instruction[cursor + 1]];
   console.log(`Test Result: ${diagnosticCode}`);
+  return diagnosticCode;
 }
 
 function parameterMode(instruction, cursor, userInput) {
@@ -85,7 +88,7 @@ function parameterMode(instruction, cursor, userInput) {
     instruction[out] = in1 * in2;
   } else if (opCode === OpCodes.OUTPUT) {
     console.log(`Test Result: ${in1}`);
-    //if(in1 !== 0) return in1;
+    return in1;
   } else if (opCode === OpCodes.INPUT) {
     input(instruction, cursor, userInput);
   }
