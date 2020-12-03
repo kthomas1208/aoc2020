@@ -1,5 +1,5 @@
-# aoc2019
-Advent of Code 2019
+# aoc2020
+Advent of Code 2020
 
 you should probz `npm install` first, btw
 
