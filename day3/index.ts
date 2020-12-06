@@ -1,4 +1,4 @@
-/** DAY 2 **/
+/** DAY 3 **/
 
 const day3 = function (input: string[]) {
   const lineLength = input[0].length;
