@@ -2279,5 +2279,5 @@ test("2.1 - should return sum of counts", () => {
 
 test("2.2 - should return sum of counts", () => {
   let result = day6_2(finalInput.split('\n\n'));
-  expect(result).toBe(0);
+  expect(result).toBe(3473);
 });
