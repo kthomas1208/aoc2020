@@ -13,19 +13,21 @@ const day17 = function (input: string[]): number {
     let grid: string[][][] = [];
     let activeCubes = 0
 
+    // create an empty grid template we'll map our input to
+    // and use for padding later
     let EMPTY_GRID = '';
     for (let i = 0; i < CANVAS_SIZE; i++) {
         EMPTY_GRID += '.'.repeat(CANVAS_SIZE) + '\n';
     }
 
-    // set up empty grids
+    // set up our empty grids
     const ys: string[][] = [];
     for (let line of EMPTY_GRID.split('\n')) {
         let xs = line.split('');
         ys.push(xs);
     }
 
-    // parse the test input into the grid
+    // parse the test input into the empty grid template
     let inputGrid = EMPTY_GRID.split('\n');
     const startingPoint = (inputGrid.length - input.length) / 2;
     let j = 0;
@@ -45,7 +47,7 @@ const day17 = function (input: string[]): number {
         y1.push(xs);
     }
 
-    // init our grid
+    // now add everything to our main grid
     grid.push(ys.map(y => y.slice()), y1, ys.map(y => y.slice()));
 
     // iterate through the grid, check neighbors, and flip if necessary
@@ -70,7 +72,8 @@ const day17 = function (input: string[]): number {
 
         step++;
 
-        // add some padding to the zs
+        // add some padding to the Z space
+        // to check neighbors next round
         grid.unshift(ys.map(y => y.slice()));
         grid.push(ys.map(y => y.slice()));
     }
@@ -105,6 +108,8 @@ const day17_2 = function (input: string[]): number {
     let grid: string[][][][] = [];
     let activeCubes = 0
 
+    // create an empty grid template we'll map our input to
+    // and use for padding later
     let EMPTY_GRID = '';
     for (let i = 0; i < CANVAS_SIZE; i++) {
         EMPTY_GRID += '.'.repeat(CANVAS_SIZE) + (i < CANVAS_SIZE - 1 ? '\n' : '');
@@ -120,7 +125,7 @@ const day17_2 = function (input: string[]): number {
     const zs: string[][][] = [];
     zs.push(ys.map(y => y.slice()), ys.map(y => y.slice()), ys.map(y => y.slice()));
 
-    // parse the test input into the grid
+    // parse the test input into the empty grid template
     let inputGrid = EMPTY_GRID.split('\n');
     const startingPoint = (inputGrid.length - input.length) / 2;
     let j = 0;
@@ -143,8 +148,7 @@ const day17_2 = function (input: string[]): number {
     let z1: string[][][] = [];
     z1.push(ys.map(y => y.slice()), y1, ys.map(y => y.slice()));
 
-
-    // init our grid
+    // now add everything to our main grid
     grid.push(zs.map(z => z.map(y => y.slice())), z1, zs.map(z => z.map(y => y.slice())));
 
     // iterate through the grid, check neighbors, and flip if necessary
@@ -171,14 +175,16 @@ const day17_2 = function (input: string[]): number {
 
         step++;
 
-        // add some padding to the 
+        // add some padding to the grid for the next round
+        grid.unshift(zs.map(z => z.map(y => y.slice())));
+        grid.push(zs.map(z => z.map(y => y.slice())));
+        zs.unshift(ys.map(y => y.slice()));
+        zs.push(ys.map(y => y.slice()));
+
         grid.forEach(z => {
             z.unshift(ys.map(y => y.slice()));
             z.push(ys.map(y => y.slice()));
         });
-
-        grid.unshift(zs.map(z => z.map(y => y.slice())));
-        grid.push(zs.map(z => z.map(y => y.slice())));
     }
 
     // count up all active points
